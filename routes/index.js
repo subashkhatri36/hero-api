@@ -15,13 +15,17 @@ const router = express.Router();
 
 router.get('/',(req,res,next)=>{
     const appDir=process.env.appDir;
-    const query= con.query("select * from Heros;");
+    const query= con.query("select * from Heros;",(error,data)=>{
+        if(error)
+        throw error;
 
-    return res.status(200).json({
-        "Message":"App is working fine.",
-        "App Directory" : appDir,
-        "query Data":query
+        return res.status(200).json({
+            
+            "SuperHeros":data
+        });
     });
+
+   
 })
 
 export default router;
