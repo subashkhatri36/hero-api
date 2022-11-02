@@ -1,0 +1,15 @@
+{
+  "name": "hero-api",
+  "version": "1.0.0",
+  "description": "A simple example of hero app.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Subash Khatri",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql": "^2.18.1"
+  }
+}
