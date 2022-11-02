@@ -11,7 +11,7 @@ const router = express.Router();
 // router.post('/login', loginController.login);
 // router.post('/logout', auth, logoutController.logout);
 
-router.post('/',(req,res,next)=>{
+router.get('/',(req,res,next)=>{
     const appDir=process.env.appDir;
     return res.status(200).json({
         'Message':'App is working fine.',
