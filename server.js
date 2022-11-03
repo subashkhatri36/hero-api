@@ -4,7 +4,7 @@ import { APP_PORT, APP_URL } from './config';
  import errorHandler from './middlewares/errorHandler';
 import routes from './routes';
 import path from 'path';
-import con from './config/db.config';
+import {connectDB} from './config/db.config';
 import cors from 'cors';
 
 const app = express();

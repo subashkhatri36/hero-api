@@ -1,0 +1,1 @@
+export {default as superHeroController} from './superHeroController';

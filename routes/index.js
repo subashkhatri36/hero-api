@@ -1,31 +1,31 @@
 import express from 'express';
-import { con } from '../config/db.config';
+import { connectDB } from '../config/db.config';
+import uploadFile from '../middlewares/upload';
+import { superHeroController } from '../controller';
 
 // import auth from '../middlewares/auth';
 
 
 const router = express.Router();
 
-//npm run dev
-// router.post('/register', registerController.register);
-// router.post('/social', registerController.register);
-// router.post('/refreshtoken', refreshController.refresh);
-// router.post('/login', loginController.login);
-// router.post('/logout', auth, logoutController.logout);
 
 router.get('/',(req,res,next)=>{
-    const appDir=process.env.appDir;
-    const query= con.query("select * from Heros;",(error,data)=>{
+    const query= connectDB.query("select * from Heros;",(error,data)=>{
         if(error)
         throw error;
 
-        return res.status(200).json({
-            
+        return res.status(200).json({            
             "SuperHeros":data
         });
     });
+});
 
-   
-})
+router.post('/search',superHeroController.search);
+
+
+
+    router.post('/create', uploadFile.single("file"), superHeroController.createSuperHero);
+
+
 
 export default router;
