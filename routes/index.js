@@ -1,9 +1,7 @@
 import express from 'express';
-import { connectDB } from '../config/db.config';
+import  connectDB  from '../config/db.config';
 import uploadFile from '../middlewares/upload';
 import { superHeroController } from '../controller';
-
-// import auth from '../middlewares/auth';
 
 
 const router = express.Router();
@@ -21,10 +19,11 @@ router.get('/',(req,res,next)=>{
 });
 
 router.post('/search',superHeroController.search);
+router.post('/search/:id',superHeroController.searchBYID);
+router.post('/remove/:id',superHeroController.deleteSuperHero);
 
-
-
-    router.post('/create', uploadFile.single("file"), superHeroController.createSuperHero);
+router.post('/create', superHeroController.createSuperHero);
+router.post('/update',superHeroController.updateSuperHero);
 
 
 

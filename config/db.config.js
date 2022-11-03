@@ -1,12 +1,6 @@
 var mysql = require('mysql');
-const Sequelize = require("sequelize");
 
-
-const {DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE,
-    MAX,
-    MIN,
-    ACQUIRE,
-    IDLE} =require('./index');
+const {DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE} =require('./index');
 
 
 //mysql connection 
@@ -26,24 +20,5 @@ connectDB.connect(function (err) {
 
 
 
-//seq
 
-
-const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
-    host: DB_HOST,
-    dialect: 'mysql',
-    operatorsAliases: false,
-  
-    pool: {
-      max: MAX,
-      min: MIN,
-      acquire: ACQUIRE,
-      idle: IDLE
-    },
-  });
-  const db={};
-  db.Sequelize=Sequelize;
-  db.sequelize=sequelize;
-  db.SuperHero=require('../models/superheroModel.js')(sequelize, Sequelize);
-
-module.exports={connectDB,db};
+module.exports=connectDB;

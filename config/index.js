@@ -13,6 +13,5 @@ export const {
     DB_USER,
     DB_PASSWORD,
     DB_DATABASE,
-    DB_DIALECT,
 
 } = process.env;
