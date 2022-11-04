@@ -177,7 +177,7 @@ async search(req,res,next){
                     searchData={"message":"No items found"};
             
                     return res.redirect('/',
-                    {"superhero":searchData});
+                    {"superhero":data,"search":data});
                 });
     
 
@@ -202,8 +202,9 @@ async search(req,res,next){
                     if(searchData===undefined)
                     searchData={"message":"No items found"};
             
-                    return res.render('/',{            
-                        "superhero":searchData
+                    return res.redirect('/',{            
+                        "superhero":searchData,
+                        "search":searchData
                     });
                 });
     

@@ -14,10 +14,12 @@
 <button type="button" class="btn btn-success">Add New Super Hero</button>
 <hr />
 
-    <%- include('../partials/add_hero.ejs',{"superhero":superhero}); %>
+    <%- include('../partials/add_hero.ejs',{"superhero":search}); %>
+    
 
 
 <hr />
+<%- include('../partials/search.ejs'); %>
 <%- include('../partials/table.ejs',{"superhero":superhero}); %>
 
 

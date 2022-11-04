@@ -12,7 +12,7 @@ router.get('/',(req,res)=>{
         if(error)
         throw error;
 
-        res.render('index',{"superhero":data});
+        res.render('index',{"superhero":data,"search":[]});
     });
    
 });
