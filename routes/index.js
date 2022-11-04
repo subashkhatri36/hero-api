@@ -7,15 +7,14 @@ import { superHeroController } from '../controller';
 const router = express.Router();
 
 
-router.get('/',(req,res,next)=>{
+router.get('/',(req,res)=>{
     const query= connectDB.query("select * from Heros;",(error,data)=>{
         if(error)
         throw error;
 
-        return res.status(200).json({            
-            "SuperHeros":data
-        });
+        res.render('index',{"superhero":data});
     });
+   
 });
 
 router.post('/search',superHeroController.search);

@@ -1,0 +1,40 @@
+
+ <table class="table">
+    
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Hero Name</th>
+        <th scope="col">Power Stat</th>
+        <th scope="col">Description</th>
+        <th scope="col">Image</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+          <% for(var i=0; i < superhero.length; i++) { %> 
+           <tr>
+                <th scope="row"><%- superhero[i].id %></th>
+                <td><%- superhero[i].name %></td>
+                <td>F<%- superhero[i].powerstat %></td>
+                <td><%- superhero[i].description %></td>
+                <td><%- superhero[i].image %>
+                    
+                  
+                </td>
+                <td>         <form action="/search/<%= superhero[i].id %>" method="POST" >
+                        <button type="button" class="btn btn-warning">Edit</button>
+                      </form>
+                        <form action="/remove/<%= superhero[i].id %>" method="POST" >
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                        
+        
+        
+                </td>
+              </tr>           
+              <% } %>
+
+       
+    </tbody>
+  </table> 

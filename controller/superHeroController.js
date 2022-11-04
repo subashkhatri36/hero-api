@@ -6,16 +6,15 @@ const connectDB=require('../config/db.config');
 
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, 'uploads/'),
-    filename: (req, file, cb) => {
-        const uniqueName = `${Date.now()}${path.extname(file.originalname)}`;
+    destination: (req, file, cb) => cb(null, 'public/'),
+    filename: (req, file, cb) => {        
+        cb(null, file.originalname)
         
-        cb(null, uniqueName);
     }
 
 });
 
-const handleMultipartData = multer({ storage, limits: { fileSize: 1000000 * 3 } }).single('image');
+const handleMultipartData = multer({ storage}).single('image');
 
 
 const superHeroController ={   
@@ -25,6 +24,7 @@ const superHeroController ={
 
     //multi -part from data
     handleMultipartData(req, res, async (err) => {
+        
         if (err) {            
             return next(CustomErrorHandler.serverError(err.message));
         }
@@ -33,6 +33,9 @@ const superHeroController ={
             name,powerstat,description
     
         } = req.body;
+        
+        
+        console.log(req.body);
         const filePath = req.file.path;
         let result;
         if(name || powerstat || description){
@@ -57,7 +60,7 @@ const superHeroController ={
                 if(error)
                 return res.status(200).json({"message":error});
 
-                return res.status(200).json({"message":"Successfully inserted.","id":data.insertId});
+                return res.redirect('/');
             });
             
 
@@ -78,7 +81,7 @@ const superHeroController ={
 async updateSuperHero(req,res,next){
     handleMultipartData(req, res, async (err) => {
         if (err) {      
-            console.log('first error');
+            
             return next(CustomErrorHandler.serverError(err.message));
         }
 
@@ -92,7 +95,7 @@ async updateSuperHero(req,res,next){
 
 
 
-        console.log('Checking .....');
+        
         
         if(name || powerstat || description){            
 
@@ -126,27 +129,27 @@ async updateSuperHero(req,res,next){
 
             //updating new files
             const query="Update Heros set name='"+name+"',powerstat='"+powerstat+"',image='"+(repath+"/"+filePath)+"',description='"+description+"' where id="+id+";".toString();
-            console.log(query);
+            
           
             connectDB.query(query,(error,data)=>{
-                console.log('inside query');
+                
                 if(error)
                 return res.status(500).json({"message":error});
 
-                console.log(data);
+                
 
-                console.log('returning error...');
-                return res.status(200).json({"message":"Successfully Updated.","id":data});
+                
+                return res.redirect('/');
             });
             
 
         } catch (err) {
-            console.log('try catch error');
+            
             return next(err);
         }
 
         }else{
-            console.log('Empty error');
+            
             return next("All field are required.")
         }
 
@@ -155,13 +158,16 @@ async updateSuperHero(req,res,next){
 });
 },
 
-        async search(req,res,next){
+async search(req,res,next){
             try{
+                console.log(req.body);
                 var query="";
+                query="SELECT * FROM Heros Where name Like '%"+req.body.name+"%'";
+
                 if(req.body.name===null || req.body.name===undefined )
                     query="SELECT * FROM Heros;"
     
-                query="SELECT * FROM Heros Where name Like '%"+req.body.name+"%'";
+               
     
                 const searchQuery= connectDB.query(query,(error,data)=>{
                     var searchData=data;
@@ -170,9 +176,8 @@ async updateSuperHero(req,res,next){
                     if(searchData===undefined)
                     searchData={"message":"No items found"};
             
-                    return res.status(200).json({            
-                        "SuperHeros":searchData
-                    });
+                    return res.redirect('/',
+                    {"superhero":searchData});
                 });
     
 
@@ -197,8 +202,8 @@ async updateSuperHero(req,res,next){
                     if(searchData===undefined)
                     searchData={"message":"No items found"};
             
-                    return res.status(200).json({            
-                        "SuperHero":searchData
+                    return res.render('/',{            
+                        "superhero":searchData
                     });
                 });
     
@@ -210,6 +215,7 @@ async updateSuperHero(req,res,next){
 
         },
         async deleteSuperHero(req,res,next){
+            
             try{
                 //removing old files
                 connectDB.query(`select image from Heros where id =${req.params.id}`,(error,data)=>{
@@ -241,9 +247,7 @@ async updateSuperHero(req,res,next){
                 if(searchData===undefined)
                 searchData={"message":"No items found"};
         
-                return res.status(200).json({            
-                    "message":"Successfully deleted."
-                });
+                return res.redirect('/');
             });
 
         },
