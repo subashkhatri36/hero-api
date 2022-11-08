@@ -5,11 +5,11 @@ extend type Query{
     greetings: String
 }
 extend type Mutation{
-    singleUpload(file:[Upload]!):SucessMessage
+    singleUpload(file:Upload!):SucessMessage
 
 }
 type SucessMessage{
-    message:String
+message:String
 }
 
 `;

@@ -55,12 +55,12 @@ module.exports = {
             return result;
         },
         addHero :  async (parent, args) => {
-            const imageUrl=await readFile(args.image);
+            // const imageUrl=await readFile(args.image);
             const result = await SuperHero.create
             ({
                     name: args.name,
                     powerstat: args.powerstat,
-                    image: imageUrl,
+                    image: args.image,
                     description: args.description
                 })
             return result;
