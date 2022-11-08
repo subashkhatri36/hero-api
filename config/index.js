@@ -1,8 +1,8 @@
-import dotenv from 'dotenv';
+const dotenv= require( 'dotenv');
 
 dotenv.config();
 
-export const {
+module.exports= {
     APP_PORT,
     APP_URL,
     DEBUG_MODE,
@@ -13,5 +13,6 @@ export const {
     DB_USER,
     DB_PASSWORD,
     DB_DATABASE,
+    DB_DIALECT,
 
 } = process.env;

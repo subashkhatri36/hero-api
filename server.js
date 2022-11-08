@@ -1,38 +1,29 @@
-import express from 'express';
-
-import { APP_PORT, APP_URL } from './config';
- import errorHandler from './middlewares/errorHandler';
-import routes from './routes/index';
-import path from 'path';
-import connectDB from './config/db.config';
+const {APP_PORT}=require('./config');
+require('./config/db.config');
+const { graphqlUploadExpress } = require("graphql-upload-minimal");
 
 
-const app = express();
-app.use(routes);
+const app= require('./app');
 
+const apolloServer=require('./apllo');
 
+async function startServer(){
+    app.use(graphqlUploadExpress());
+    await apolloServer.start();
+    apolloServer.applyMiddleware({app});
+    
+    app.use('/',(req,res)=>{
+        res.send({
+            message:"Use graphql using path /graphql"
+        })
+    })
+}
 
-var corsOptions={
-    origin: APP_URL
-};
+startServer();
 
+const PORT= process.env.PORT || APP_PORT;
 
-//setting view engine
-
-app.set('view engine','ejs');
-
-app.use(express.json());
-///create global support app root path
-global.appRoot = path.resolve(__dirname);
-app.use(express.urlencoded({ extended: false }));
-//for json response to the user
-app.use(express.json());
-//let express know upload folder contain images and can be display as url
-app.use('/public', express.static('public'));
-
-
-
-///error handler useing
-app.use(errorHandler);
-
-app.listen(process.env.PORT || APP_PORT, () => console.log(`listening on port ${APP_PORT}.`));
+app.listen(PORT,()=>{
+    console.log(`App running on port ${PORT}`);
+    console.log(`Graphql entry path is ${apolloServer.graphqlPath}`);
+});
