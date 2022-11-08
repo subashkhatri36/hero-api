@@ -1,4 +1,6 @@
-const {SuperHero} =require('../Model/superHeroModel');
+const SuperHero=require('../Model/superHeroModel');
+const {readFile} =require('../Middleware/file');
+
 
 module.exports = {
     Query: {
@@ -53,11 +55,12 @@ module.exports = {
             return result;
         },
         addHero :  async (parent, args) => {
+            const imageUrl=await readFile(args.image);
             const result = await SuperHero.create
             ({
                     name: args.name,
                     powerstat: args.powerstat,
-                    image: args.image,
+                    image: imageUrl,
                     description: args.description
                 })
             return result;
