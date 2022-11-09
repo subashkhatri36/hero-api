@@ -2,7 +2,6 @@ const {APP_PORT}=require('./config');
 require('./config/db.config');
 const { graphqlUploadExpress } = require("graphql-upload-minimal");
 
-
 const app= require('./app');
 
 const apolloServer=require('./apllo');

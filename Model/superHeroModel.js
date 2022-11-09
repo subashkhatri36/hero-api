@@ -36,8 +36,9 @@ SuperHero.init({
 });
 sequlize.authenticate().then(() => {
     console.log('Connection has been established successfully.');
-    sequlize.sync({ force: true });
+    sequlize.sync(); 
  }).catch((error) => {
+  sequlize.close();
     console.error('Unable to connect to the database: ', error);
  });
   

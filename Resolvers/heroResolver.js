@@ -8,14 +8,12 @@ const path=require('path');
 module.exports = {
     Upload: GraphQLUpload,
     Query: {
-
         getHerosList: async (parent, args) => {
             
             const result = await SuperHero.findAll();
             if(result===null){
                 return {message:"No data found"};
-            }
-               
+            }               
         
             return result;
 
@@ -49,17 +47,18 @@ module.exports = {
             try {
                 //find 
                 const result = await SuperHero.findByPk(args.id);
-                
-
+                console.log(result);
                 if(result){
                      //remove old image
-                    console.log(result.dataValues.image);
-                     fs.unlink(result.dataValues.image, (err) => {
-                        if (err) throw err;
-                        console.log('test1.txt was deleted');
-                      });
-
-                   
+                    try{
+                        fs.unlink(result.dataValues.image, (err) => {
+                            if (err) throw err;
+                            console.log(' image was deleted');
+                          });  
+                    }catch(error){
+                        console.log(error);
+                    }
+                                     
                 }
                 // result.dataValues.image
 
@@ -74,7 +73,7 @@ module.exports = {
                     const imageStream=await createWriteStream(url);
                     await stream.pipe(imageStream);
                     
-                    const result = await SuperHero.create
+                    const result = await SuperHero.update
                          ({
                             name: args.name,
                             powerstat: args.powerstat,
@@ -112,22 +111,21 @@ module.exports = {
                 //find 
                 const result = await SuperHero.findByPk(args.id);
                 
+                if(result){
+                    //remove old image
 
+                    fs.unlink(path.join(__dirname, path.basename(result.dataValues.image), (err) => {
+                       if (err) throw err;
+                       console.log('test1.txt was deleted');
+                     }));                  
+               }
                
                 
                await SuperHero.destroy({
                     where: { id: args.id },
                   }).then((value)=>{
-                    if(result){
-                        //remove old image
-   
-                        fs.unlink(path.join(__dirname, path.basename(result.dataValues.image), (err) => {
-                           if (err) throw err;
-                           console.log('test1.txt was deleted');
-                         }));
-   
-                      
-                   }
+                    console.log(value);
+                   
                   });
                                    
                
