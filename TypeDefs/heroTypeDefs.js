@@ -5,7 +5,7 @@ module.exports = gql `
 
 scalar Upload
 type Hero {
-    id: ID
+    id: ID!
     name: String!
     powerstat: String!
     image: String!
@@ -13,9 +13,9 @@ type Hero {
 }
 
 type Query {
-    getHerosList: [Hero]
-    getHero(id: ID!): Hero
-    getHerosByName(name: String!): Hero
+    getHerosList: [Hero!]
+    getHero(id: ID!): Hero!
+    getHerosByName(name: String!): [Hero!]
 }
 
 type Mutation {

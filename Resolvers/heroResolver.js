@@ -1,4 +1,5 @@
 const SuperHero=require('../Model/superHeroModel');
+
 const fs=require('fs');
 const {createWriteStream} =require('fs');
 const { GraphQLUpload } = require('graphql-upload-minimal');
@@ -30,9 +31,14 @@ module.exports = {
 
         },
         getHerosByName: async (parent, args) => {
-            
-            const result = await SuperHero.findOne({ where: { name: args.name } });
-            if(result===null){
+            console.log(args);
+        const result=await SuperHero.findAll({
+            where: {
+                name: args.name
+                
+              }
+             } );
+             if(result===null){
                 return {message:"No data found"};
             }
         
